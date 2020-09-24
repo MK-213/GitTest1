@@ -370,5 +370,200 @@ Project is created with:
        CloudWatch on EC2 will monitor by default
        You can have 1 minute intervals by turning detailed monitoring.
        You can create alarms which trigger notifications.
-       CloudTrail is for auditing
+       CloudTrail is for auditing.
        
+       Standard monitoring is 5 min expited is 1 min
+       Create dashboard to see what is happening with your environment.
+       You can set Alarm to notify you when  partucular thresholds are hit.
+       CW events helps you to respond to stage changes in your resources.
+       CW logs helps you to aggregate, monitor and store logs.
+       
+       
+       Roles are more secure than storing your access key and and secret access key on individual EC2 
+       instances.
+       Easier to manage.
+       Roles can be assigned to an instance after its created using the console and command line.
+       
+       
+       ### Meta-Data / User-Data
+       
+       curl http://169.254.169.254/latest/ meta-data/ or user-data/
+       Meta-data for getting information such as IP
+       User-data for getting information such as bootscrapt script
+       
+       
+       
+       ## EFS
+       
+       Elastic File System is is a storage service for EC2.
+       Easy to use and provides a simple interface that allows you to create and configure file systems
+       easily and quickly.
+       Storage capacity is Elastic meaning is growning and shriking automatically as you add and remove files.
+       You applications can have the storage they need, when they need it.
+       Good for sharing files between EC2's
+       When use it don't forget to set inbound rules.
+       
+       
+       Supports the NFSv4 protocol
+       You only pay for the storage you use
+       Can scale up to petabyets
+       Can support thousands of concurrent NFS connections
+       Data is stored accroiss multiple AZ's within a region
+       Read After White Consistency 
+       
+       
+       
+       ### FSx for Windows / FSx for Luster
+       
+       
+       FSx for Windows File Server provides a fully managed native Microsoft file system so you can easyli
+       move your Windows-based applications that require file storage to AWS. FSx is build on Windows Server.
+       
+       Windows FSx vs EFS
+       
+       Windows FSx
+       -When you need centralised storage for Windows based apps such as Sharepoint, Microsoft SQL,
+        Workspaces, IIS Web Server or any other native Microsoft app
+       -Runs Windows Server Message Block (SMB) based file services.
+       -Designed for Windows and Windows Applications
+       -Supports AD users, access control lists, groups and security polices, along with 
+       DFS namespaces and replication.
+       
+       
+       EFS
+       
+       - A managed NAS files for EC2 instances based on NFSystem v4
+       - One of the first network file sharing protocols native to Unix and Linux
+       - When you need distributed, highly resilient storage for Linux instanceds and Linux-based applications.
+       
+       
+       
+       Placement Groups 
+       
+       Cluster 
+          Is a group of instances in a single AZ. 
+          Good for Low network latency, high network throughput, or both.
+          Only certain instances can be launched in Cluster
+          
+          
+      Spread Placement
+          Is a group of instances that are each placed on underlying hardware.
+          IndivIDUAL Critical EC2 instances
+          Good for apps that have small number of critical instances that need/should be kept seperated from
+          each other
+          You can have seperate groups in different AZs with in one region.
+          Designed to protect from hardware failure.
+          
+          
+      Partitioned Placement
+          Is a group of instances that EC2 divides each group into logical segments called partitions.
+          EC2 ensures that each partition within a placement group has its own set of racks.
+          Multiple EC2 instances HDFS, HBase and Cassandra
+          Each rack has its own network and power source.
+          No two partitions within a Placement group share the same racks,
+          allowing you to isolate the impact of hardware failure within your application.
+          
+       
+       
+       FSx Lustre
+       - Is a fully managed file system that is optimized for compute-intensive workloads, such as high-   
+       performance computing, ML, media data processing workflows, and electronics design automation (EDA)
+       
+       - With FSx you can run a Lustre file system that can process/read-write massive data sets at up to 
+       hundres of gigabytes per second of throughput, millions of IOPS, and sub-millisecond latencies. 
+       - Can store directly data on S3.
+       
+       
+       HPC with AWS
+       HPC is used for indristries such as genomics, finance and financial risk modeling, machone learning
+       weather prediction, autonomous driving.
+       
+       Data transfer, Compute and Networking, Storage, Orchestrations and automation are different services we 
+       can use to achieve HPC.
+       
+       Data transfer
+       Snowball, Snowmobile. 
+       AWS DataSync to store on S3, EFS, FSx for Windows.
+       DirectConnect
+       
+       Compute and Networking Services that allow you to achive HPC
+       
+       EC2 instances that are GPU or CPU optimised
+       EC2 Fleets (Spot Instances or Spot Fleets)
+       Placement groups (cluster placement groups)
+       Enchaned Networking
+       Elastic Network Adapters
+       Elastic Fabric Adapters
+       
+       EN 
+        Uses single root I/O virtualization (SR-IOV) to provide high-performance networking capabilities on 
+        on supported instace types. SR-IOV is a method of device virtualization that provides higher I/O
+        performance and lower CPU utilization when compared to traditional virtualized network interfaces.
+        
+        EN
+        Provides higher bandwith, higher packet per second (PPS) and consinstency lower inter-instance 
+        latencies. There is no additional networking.
+        
+        Use where you want good network performance.
+        
+        Depends on instnace EN can be enabled:
+                      Elastic Network Adapter (ENA), whichi supports network speeds of up to 100Gbps for 
+                      for supported instance types.
+                      
+                      Intel 82599 Virtual Function (VF) interface, supports network speeds up to 10 Gbps. This 
+                      is used mainly on older instances.
+                      
+                      If you have the option is probably best to use ENA over Intel VF
+       
+       
+       
+       
+       Elastic Fabric Adapter (EFA) is a network device you can attach to your EC2 Instance to accelerate HPC
+       and ML applications
+       Provides low, more consistenct latency and higher throuput than the TCP transport traditionally use on 
+       cloud-based HPC Systems
+       Can use OS-bypass, which enables HPC and ML applications to bypass the OS Kernel and communicate 
+       directly with the EFA device. It makes it alot faster with much lower latency. It is not supported with
+       Windows only Linux.
+       
+       
+       
+       Storage services for HPC
+       
+       
+       EBS: Scale up to 64k IOPS with Provisioned IOPS (PIOPS)
+       Instance Store: Scale to millions of IOPS; low latency.
+       
+       
+       Network storage
+       S3
+       EFS
+       FSx for Lustre
+       
+       
+       
+       Orchestration & Automation for HPC
+       
+       
+       AWS Batch enables developoers, scientics and engineers to easily and efficiently run hundreds of 
+       thousands of batch computing jobs on AWS.
+       Supports multi-node parallel jobs, which allows you to run a single jon that spans multiple instances.
+       You can schedule jobs and launch EC2 instances according to your needs.
+       
+       
+       ParallerCluster
+       Open-source cluster management tool that makes it easy for you to deploy and manage HPC clusters on AWS
+       Uses a simple text file to model and provision all the resources needed for your HPC applications in an 
+       in an automated seccure maneed.
+       Automate creation of VPC, subnet, cluster type, and instance type.
+       
+       
+       
+       AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that 
+       are forwaded to CLoudFront an Application Load Balancer or API Gateway.
+       Lets you control access to your content. Is a level 7 layer protocol
+       More to add.
+       
+       
+       
+      
